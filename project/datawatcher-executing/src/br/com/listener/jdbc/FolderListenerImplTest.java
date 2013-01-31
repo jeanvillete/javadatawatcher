@@ -1,7 +1,7 @@
 package br.com.listener.jdbc;
 import org.apache.log4j.Logger;
 
-import br.com.datawatcher.entity.File;
+import br.com.datawatcher.entity.FileWrapper;
 import br.com.datawatcher.listener.adapter.FolderMappingListenerAdapter;
 
 /**
@@ -13,17 +13,17 @@ public class FolderListenerImplTest extends FolderMappingListenerAdapter {
 	private static Logger log = Logger.getLogger(FolderListenerImplTest.class);
 	
 	@Override
-	public void insert(File newFile) {
+	public void insert(FileWrapper newFile) {
 		this.printFile("insert", newFile);
 	}
 	
 	@Override
-	public void delete(File oldFile) {
+	public void delete(FileWrapper oldFile) {
 		this.printFile("delete", oldFile);
 	}
 
-	private void printFile(String operation, File file) {
-		log.info(operation + ", file name : " + file.getName());
+	private void printFile(String operation, FileWrapper file) {
+		log.info(operation + ", file name : " + file.getFile().getName());
 	}
 
 }
