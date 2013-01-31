@@ -3,7 +3,7 @@
  */
 package br.com.datawatcher.listener.adapter;
 
-import br.com.datawatcher.entity.File;
+import br.com.datawatcher.entity.FileWrapper;
 import br.com.datawatcher.entity.SimpleRegister;
 import br.com.datawatcher.interfaces.DataChangeable;
 
@@ -15,7 +15,7 @@ public abstract class FolderMappingListenerAdapter implements DataChangeable {
 
 	@Override
 	public void insert(SimpleRegister newSimpleRegister) {
-		this.insert((File) newSimpleRegister);
+		this.insert((FileWrapper) newSimpleRegister);
 	}
 
 	@Override
@@ -24,9 +24,9 @@ public abstract class FolderMappingListenerAdapter implements DataChangeable {
 
 	@Override
 	public void delete(SimpleRegister oldSimpleRegister) {
-		this.delete((File) oldSimpleRegister);
+		this.delete((FileWrapper) oldSimpleRegister);
 	}
 
-	public abstract void insert(File newFile);
-	public abstract void delete(File oldFile);
+	public abstract void insert(FileWrapper newFile);
+	public abstract void delete(FileWrapper oldFile);
 }

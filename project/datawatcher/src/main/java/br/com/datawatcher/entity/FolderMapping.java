@@ -4,13 +4,11 @@
 package br.com.datawatcher.entity;
 
 import java.io.FilenameFilter;
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
 import br.com.datawatcher.common.Util;
 import br.com.datawatcher.exception.DataWatcherException;
-import br.com.datawatcher.exception.DataWatcherRuntimeException;
 import br.com.datawatcher.service.CompareSimpleRegister;
 
 /**
@@ -22,7 +20,7 @@ public class FolderMapping extends DataMapping {
 	private String				canonicalPath;
 	private String				regexFilter;
 	private java.io.File		folder;
-	private Set<File>			folderState;
+	private Set<FileWrapper>	folderState;
 	
 	public FolderMapping() { }
 	
@@ -31,17 +29,13 @@ public class FolderMapping extends DataMapping {
 		this.regexFilter = regexFilter;
 	}
 	
-	private Set<File> getFiles() {
-		try {
-			Set<File> folderState = new HashSet<File>();
-			java.io.File[] files = this.getFolder().listFiles(new FolderFilter());
-			for (java.io.File file : files) {
-					folderState.add(new File(file.getCanonicalPath()));
-			}
-			return folderState;
-		} catch (IOException e) {
-			throw new DataWatcherRuntimeException(e);
+	private Set<FileWrapper> getFiles() {
+		Set<FileWrapper> folderState = new HashSet<FileWrapper>();
+		java.io.File[] files = this.getFolder().listFiles(new FolderFilter());
+		for (java.io.File file : files) {
+			folderState.add(new FileWrapper(file));
 		}
+		return folderState;
 	}
 	
 	@Override
@@ -55,8 +49,8 @@ public class FolderMapping extends DataMapping {
 	@Override
 	public void checkChange() throws DataWatcherException {
 		try {
-			Set<File> newFiles = this.getFiles();
-			CompareSimpleRegister<File> compareSimpleRegister = new CompareSimpleRegister<File>(this.folderState, newFiles);
+			Set<FileWrapper> newFiles = this.getFiles();
+			CompareSimpleRegister<FileWrapper> compareSimpleRegister = new CompareSimpleRegister<FileWrapper>(this.folderState, newFiles);
 			compareSimpleRegister.processComparing(getListeners());
 		} catch (Exception e) {
 			throw new DataWatcherException(e);
