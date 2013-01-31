@@ -4,11 +4,13 @@
 package br.com.datawatcher.entity;
 
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
 import br.com.datawatcher.common.Util;
 import br.com.datawatcher.exception.DataWatcherException;
+import br.com.datawatcher.exception.DataWatcherRuntimeException;
 import br.com.datawatcher.service.CompareSimpleRegister;
 
 /**
@@ -30,12 +32,16 @@ public class FolderMapping extends DataMapping {
 	}
 	
 	private Set<File> getFiles() {
-		Set<File> folderState = new HashSet<File>();
-		java.io.File[] files = this.getFolder().listFiles(new FolderFilter());
-		for (java.io.File file : files) {
-			folderState.add(new File(file.getName()));
+		try {
+			Set<File> folderState = new HashSet<File>();
+			java.io.File[] files = this.getFolder().listFiles(new FolderFilter());
+			for (java.io.File file : files) {
+					folderState.add(new File(file.getCanonicalPath()));
+			}
+			return folderState;
+		} catch (IOException e) {
+			throw new DataWatcherRuntimeException(e);
 		}
-		return folderState;
 	}
 	
 	@Override
