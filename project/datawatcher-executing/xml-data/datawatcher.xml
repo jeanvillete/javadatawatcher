@@ -1,0 +1,31 @@
+<datawatcher>
+	<table-mapping identifier="PersonWatcher" table-name="person">
+		<check-change cron-expression="0/15 * * ? * *"/>
+		<jdbc-connection>
+			<driverclass-name>com.mysql.jdbc.Driver</driverclass-name>
+			<url>jdbc:mysql://localhost/datawatcher</url>
+			<username>root</username>
+			<password>jean</password>
+		</jdbc-connection>
+		<id column-type="java.lang.Integer" column-name="id"/>
+		<columns>
+			<column column-type="java.lang.String" column-name="firstname"/>
+			<column column-type="java.lang.String" column-name="lastname"/>
+			<column column-type="java.util.Date" column-name="birthdate"/>
+			<column column-type="java.util.Date" column-name="registerdate"/>
+			<column column-type="java.lang.String" column-name="emailaddress"/>
+			<column column-type="java.lang.Character" column-name="gender"/>
+			<column column-type="java.lang.Byte" column-name="isdeveloper"/>
+		</columns>
+		<listeners>
+			<listener class-name="br.com.listener.jdbc.JdbcListenerImplTest" asynchronous="false"/>
+		</listeners>
+	</table-mapping>
+	 
+	<folder-mapping identifier="MyFolderWatcher" canonical-path="C:\TEMP\datawatcher\listened" regex-filter="^[\w|\W]+.txt$">
+		<check-change cron-expression="0/5 * * ? * *"/>
+		<listeners>
+			<listener class-name="br.com.listener.jdbc.FolderListenerImplTest" asynchronous="false"/>
+		</listeners>
+	</folder-mapping>
+</datawatcher>
