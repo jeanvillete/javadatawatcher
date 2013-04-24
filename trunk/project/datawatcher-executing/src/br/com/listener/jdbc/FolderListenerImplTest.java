@@ -21,6 +21,11 @@ public class FolderListenerImplTest extends FolderMappingListenerAdapter {
 	public void delete(FileWrapper oldFile) {
 		this.printFile("delete", oldFile);
 	}
+	
+	@Override
+	public void update(FileWrapper file) {
+		this.printFile("update", file);
+	}
 
 	private void printFile(String operation, FileWrapper file) {
 		log.info(operation + ", file name : " + file.getFile().getName());
