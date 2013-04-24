@@ -1,9 +1,11 @@
 package br.com.datawatcher.entity;
 
+import org.com.tatu.helper.GeneralsHelper;
+
 public class Listener {
 	
 	private String			classname;
-	private String 			asynchronous;
+	private boolean			asynchronous;
 
 	public Listener() { }
 	
@@ -20,11 +22,15 @@ public class Listener {
 		this.classname = classname;
 	}
 
-	public String getAsynchronous() {
+	public boolean getAsynchronous() {
 		return asynchronous;
 	}
 
-	public void setAsynchronous(String asynchronous) {
+	public void setAsynchronous(boolean asynchronous) {
 		this.asynchronous = asynchronous;
+	}
+	
+	public void setAsynchronous(String asynchronous) {
+		this.asynchronous = GeneralsHelper.isBooleanTrue(asynchronous);
 	}
 }

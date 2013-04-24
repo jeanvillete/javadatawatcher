@@ -5,7 +5,8 @@ package br.com.datawatcher.service;
 
 import java.util.Set;
 
-import br.com.datawatcher.common.Util;
+import org.com.tatu.helper.GeneralsHelper;
+
 import br.com.datawatcher.entity.CoupleAnalyze;
 import br.com.datawatcher.entity.Listener;
 import br.com.datawatcher.entity.SimpleRegister;
@@ -36,7 +37,7 @@ public class ProcessListener <T extends SimpleRegister> implements Runnable {
 			throw new IllegalArgumentException("param dataMappingState not value.");
 		}
 		this.dataMappingState = dataMappingState;
-		if (Util.isBooleanOk(this.listener.getAsynchronous())) {
+		if (GeneralsHelper.isBooleanTrue(this.listener.getAsynchronous())) {
 			new Thread(this).start();
 		} else {
 			this.run();

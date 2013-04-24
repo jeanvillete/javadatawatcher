@@ -3,7 +3,8 @@
  */
 package br.com.datawatcher.entity;
 
-import br.com.datawatcher.common.Util;
+import org.com.tatu.helper.GeneralsHelper;
+
 import br.com.datawatcher.exception.InterfaceNotImplemented;
 import br.com.datawatcher.interfaces.Decryptable;
 
@@ -20,7 +21,7 @@ public abstract class DataLogging {
 	private String				decryptClass;
 
 	protected String getDecryptedDataLogging(String dataLogging) throws InstantiationException, IllegalAccessException, ClassNotFoundException, InterfaceNotImplemented {
-		if (Util.isStringOk(this.decryptClass)) {
+		if (GeneralsHelper.isStringOk(this.decryptClass)) {
 			Object decryptable = Class.forName(this.decryptClass).newInstance();
 			if (decryptable instanceof Decryptable) {
 				return ((Decryptable)decryptable).decrypt(dataLogging);

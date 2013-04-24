@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
+import org.com.tatu.helper.GeneralsHelper;
+
 import br.com.datawatcher.exception.InterfaceNotImplemented;
 
 /**
@@ -34,7 +36,7 @@ public class JdbcConnection {
 	 * @param driverclass
 	 */
 	public JdbcConnection(String user, String password, String url, String driverclass) {
-		if (!Util.isStringOk(user) || password == null || !Util.isStringOk(url) || !Util.isStringOk(driverclass)) {
+		if (!GeneralsHelper.isStringOk(user) || password == null || !GeneralsHelper.isStringOk(url) || !GeneralsHelper.isStringOk(driverclass)) {
 			throw new IllegalArgumentException("The argument can't be empty or null. Parameters; user, password, url, driverclass");
 		}
 		try {

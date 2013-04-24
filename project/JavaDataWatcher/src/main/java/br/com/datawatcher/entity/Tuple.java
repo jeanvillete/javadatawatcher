@@ -6,7 +6,7 @@ package br.com.datawatcher.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.datawatcher.common.Util;
+import org.com.tatu.helper.GeneralsHelper;
 
 /**
  * @author Jean Villete
@@ -36,7 +36,7 @@ public class Tuple extends SimpleRegister {
 	
 	private void calculatesHashes() {
 		this.hashId = this.tupleId.hashCode();
-		if (Util.isBooleanOk(this.tupleId.isTransientValue())) {
+		if (GeneralsHelper.isBooleanTrue(this.tupleId.isTransientValue())) {
 			this.tupleId = null;
 		}
 		
@@ -44,7 +44,7 @@ public class Tuple extends SimpleRegister {
 		for (int index = 0; index < this.tupleFields.size(); index++) {
 			TupleField tupleField = this.tupleFields.get(index);
 			str.append(tupleField.getStringValue());
-			if (Util.isBooleanOk(tupleField.isTransientValue())) {
+			if (GeneralsHelper.isBooleanTrue(tupleField.isTransientValue())) {
 				this.tupleFields.remove(index);
 			}
 		}

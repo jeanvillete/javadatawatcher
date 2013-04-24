@@ -10,7 +10,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import br.com.datawatcher.common.Util;
+import org.com.tatu.helper.GeneralsHelper;
+
 import br.com.datawatcher.exception.DataWatcherException;
 import br.com.datawatcher.exception.InterfaceNotImplemented;
 import br.com.datawatcher.service.CompareSimpleRegister;
@@ -101,7 +102,7 @@ public class TableMapping extends DataMapping {
 	
 	@Override
 	public void startup() throws DataWatcherException {
-		if (this.id != null && Util.isCollectionOk(this.columns)) {
+		if (this.id != null && GeneralsHelper.isCollectionOk(this.columns)) {
 			try {
 				JdbcConnectionWrapper jdbcConnectionWrapper = this.processSelect();
 				this.tableState = this.buildResult(jdbcConnectionWrapper);
