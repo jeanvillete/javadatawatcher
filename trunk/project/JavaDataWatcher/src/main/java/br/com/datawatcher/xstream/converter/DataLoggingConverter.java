@@ -3,7 +3,8 @@
  */
 package br.com.datawatcher.xstream.converter;
 
-import br.com.datawatcher.common.Util;
+import org.com.tatu.helper.GeneralsHelper;
+
 import br.com.datawatcher.entity.DataLogging;
 import br.com.datawatcher.entity.PasswordLogging;
 import br.com.datawatcher.entity.UserLogging;
@@ -29,7 +30,7 @@ public class DataLoggingConverter implements Converter {
 	@Override
 	public void marshal(Object value, HierarchicalStreamWriter writer, MarshallingContext context) {
 		DataLogging dataLogging = (DataLogging) value;
-		if (Util.isStringOk(dataLogging.getDecryptClass())) {
+		if (GeneralsHelper.isStringOk(dataLogging.getDecryptClass())) {
 			writer.addAttribute("decrypt-class", dataLogging.getDecryptClass());
 		}
 		if (dataLogging instanceof UserLogging) {
@@ -42,14 +43,14 @@ public class DataLoggingConverter implements Converter {
 	@Override
 	public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
 		if (reader.getNodeName().equals("username")) {
-			if (Util.isStringOk(reader.getAttribute("decrypt-class"))) {
+			if (GeneralsHelper.isStringOk(reader.getAttribute("decrypt-class"))) {
 				String decryptClass = reader.getAttribute("decrypt-class");
 				String userName = reader.getValue();
 				return new UserLogging(userName, decryptClass);
 			}
 			return new UserLogging(reader.getValue());
 		} else if (reader.getNodeName().equals("password")) {
-			if (Util.isStringOk(reader.getAttribute("decrypt-class"))) {
+			if (GeneralsHelper.isStringOk(reader.getAttribute("decrypt-class"))) {
 				String decryptClass = reader.getAttribute("decrypt-class");
 				String password = reader.getValue();
 				return new PasswordLogging(password, decryptClass);

@@ -7,7 +7,8 @@ import java.io.FilenameFilter;
 import java.util.HashSet;
 import java.util.Set;
 
-import br.com.datawatcher.common.Util;
+import org.com.tatu.helper.GeneralsHelper;
+
 import br.com.datawatcher.exception.DataWatcherException;
 import br.com.datawatcher.service.CompareSimpleRegister;
 
@@ -72,7 +73,7 @@ public class FolderMapping extends DataMapping {
 	}
 	public java.io.File getFolder() {
 		if (this.folder == null) {
-			if (!Util.isStringOk(this.canonicalPath)) {
+			if (!GeneralsHelper.isStringOk(this.canonicalPath)) {
 				throw new IllegalStateException("there's no valid value to attribute canonicalPath");
 			}
 			this.folder = new java.io.File(this.canonicalPath);
@@ -83,7 +84,7 @@ public class FolderMapping extends DataMapping {
 	private class FolderFilter implements FilenameFilter {
 		@Override
 		public boolean accept(java.io.File dir, String name) {
-			if (Util.isStringOk(regexFilter)) {
+			if (GeneralsHelper.isStringOk(regexFilter)) {
 				return name.matches(regexFilter);
 			} return true;
 		}
