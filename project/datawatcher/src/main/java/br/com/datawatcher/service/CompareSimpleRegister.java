@@ -37,33 +37,33 @@ public class CompareSimpleRegister <T extends SimpleRegister> {
 		while (iterator.hasNext()) {
 			SimpleRegister simpleRegister = iterator.next();
 			
-			CoupleAnalyze coupleTuple = this.newSimpleRegisters.get(simpleRegister.hashCode());
-			if (coupleTuple == null) {
-				coupleTuple = new CoupleAnalyze();
+			CoupleAnalyze coupleAnalyze = this.newSimpleRegisters.get(simpleRegister.hashCode());
+			if (coupleAnalyze == null) {
+				coupleAnalyze = new CoupleAnalyze();
 			}
-			coupleTuple.addCurrentSimpleRegister(simpleRegister);
-			this.newSimpleRegisters.put(simpleRegister.hashCode(), coupleTuple);
+			coupleAnalyze.addCurrentSimpleRegister(simpleRegister);
+			this.newSimpleRegisters.put(simpleRegister.hashCode(), coupleAnalyze);
 		}
 	}
 	
 	private void turnUpNewState(Set<T> newSimpleRegister) {
 		Iterator<T> iterator = newSimpleRegister.iterator();
 		while (iterator.hasNext()) {
-			SimpleRegister tuple = iterator.next();
+			SimpleRegister simpleRegister = iterator.next();
 			
-			CoupleAnalyze coupleTuple = this.newSimpleRegisters.get(tuple.hashCode());
-			if (coupleTuple == null) {
-				coupleTuple = new CoupleAnalyze();
+			CoupleAnalyze coupleAnalyze = this.newSimpleRegisters.get(simpleRegister.hashCode());
+			if (coupleAnalyze == null) {
+				coupleAnalyze = new CoupleAnalyze();
 			}
-			coupleTuple.addNewSimpleRegister(tuple);
-			this.newSimpleRegisters.put(tuple.hashCode(), coupleTuple);
+			coupleAnalyze.addNewSimpleRegister(simpleRegister);
+			this.newSimpleRegisters.put(simpleRegister.hashCode(), coupleAnalyze);
 		}
 	}
 	
 	public void processComparing(List<Listener> listeners) throws DataWatcherException {
-		for (CoupleAnalyze coupleTuple : this.newSimpleRegisters.values()) {
+		for (CoupleAnalyze coupleAnalyze : this.newSimpleRegisters.values()) {
 			for (Listener listener : listeners) {
-				new ProcessListener<T>(listener, coupleTuple).process(this.currentDataMappingState);
+				new ProcessListener<T>(listener, coupleAnalyze).process(this.currentDataMappingState);
 			}
 		}
 	}

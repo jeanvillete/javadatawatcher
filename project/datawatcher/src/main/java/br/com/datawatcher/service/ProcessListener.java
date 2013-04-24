@@ -9,7 +9,6 @@ import br.com.datawatcher.common.Util;
 import br.com.datawatcher.entity.CoupleAnalyze;
 import br.com.datawatcher.entity.Listener;
 import br.com.datawatcher.entity.SimpleRegister;
-import br.com.datawatcher.entity.Tuple;
 import br.com.datawatcher.exception.DataWatcherException;
 import br.com.datawatcher.exception.DataWatcherRuntimeException;
 import br.com.datawatcher.interfaces.DataChangeable;
@@ -22,14 +21,14 @@ public class ProcessListener <T extends SimpleRegister> implements Runnable {
 	
 	private Set<T> 				dataMappingState;
 	private Listener 			listener;
-	private CoupleAnalyze 		coupleTuple;
+	private CoupleAnalyze 		coupleAnalyze;
 	
-	protected ProcessListener(Listener listener, CoupleAnalyze coupleTuple) {
-		if (listener == null || coupleTuple == null) {
+	protected ProcessListener(Listener listener, CoupleAnalyze coupleAnalyze) {
+		if (listener == null || coupleAnalyze == null) {
 			throw new IllegalArgumentException("param can't be null");
 		}
 		this.listener = listener;
-		this.coupleTuple = coupleTuple;
+		this.coupleAnalyze = coupleAnalyze;
 	}
 	
 	protected void process(Set<T> dataMappingState) throws DataWatcherException {
@@ -48,16 +47,16 @@ public class ProcessListener <T extends SimpleRegister> implements Runnable {
 	@SuppressWarnings("unchecked")
 	public void run() {
 		try {
-			if (this.coupleTuple.isUpdate()) {
-				this.dataMappingState.remove(this.coupleTuple.getCurrentSimpleRegister());
-				this.dataMappingState.add((T) this.coupleTuple.getNewSimpleRegister());
-				((DataChangeable)Class.forName(this.listener.getClassname()).newInstance()).update(this.coupleTuple.getCurrentSimpleRegister(), (Tuple)this.coupleTuple.getNewSimpleRegister());
-			} else if (this.coupleTuple.isDelete()) {
-				this.dataMappingState.remove(this.coupleTuple.getCurrentSimpleRegister());
-				((DataChangeable)Class.forName(this.listener.getClassname()).newInstance()).delete(this.coupleTuple.getCurrentSimpleRegister());
-			} else if (this.coupleTuple.isInsert()) {
-				this.dataMappingState.add((T) this.coupleTuple.getNewSimpleRegister());
-				((DataChangeable)Class.forName(this.listener.getClassname()).newInstance()).insert(this.coupleTuple.getNewSimpleRegister());
+			if (this.coupleAnalyze.isUpdate()) {
+				this.dataMappingState.remove(this.coupleAnalyze.getCurrentSimpleRegister());
+				this.dataMappingState.add((T) this.coupleAnalyze.getNewSimpleRegister());
+				((DataChangeable)Class.forName(this.listener.getClassname()).newInstance()).update(this.coupleAnalyze.getCurrentSimpleRegister(), (T)this.coupleAnalyze.getNewSimpleRegister());
+			} else if (this.coupleAnalyze.isDelete()) {
+				this.dataMappingState.remove(this.coupleAnalyze.getCurrentSimpleRegister());
+				((DataChangeable)Class.forName(this.listener.getClassname()).newInstance()).delete(this.coupleAnalyze.getCurrentSimpleRegister());
+			} else if (this.coupleAnalyze.isInsert()) {
+				this.dataMappingState.add((T) this.coupleAnalyze.getNewSimpleRegister());
+				((DataChangeable)Class.forName(this.listener.getClassname()).newInstance()).insert(this.coupleAnalyze.getNewSimpleRegister());
 			}
 		} catch (Exception e) {
 			throw new DataWatcherRuntimeException(e);

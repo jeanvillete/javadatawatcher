@@ -60,7 +60,7 @@ public class Tuple extends SimpleRegister {
 	}
 	
 	@Override
-	public int hashSimpleRegister() {
+	public long hashSimpleRegister() {
 		if (this.hashRegister == null) {
 			this.calculatesHashes();
 		}

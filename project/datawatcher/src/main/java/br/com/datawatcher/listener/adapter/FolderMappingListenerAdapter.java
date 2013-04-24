@@ -20,6 +20,7 @@ public abstract class FolderMappingListenerAdapter implements DataChangeable {
 
 	@Override
 	public void update(SimpleRegister oldSimpleRegister, SimpleRegister newSimpleRegister) {
+		this.update((FileWrapper)newSimpleRegister);
 	}
 
 	@Override
@@ -29,4 +30,5 @@ public abstract class FolderMappingListenerAdapter implements DataChangeable {
 
 	public abstract void insert(FileWrapper newFile);
 	public abstract void delete(FileWrapper oldFile);
+	public abstract void update(FileWrapper file);
 }

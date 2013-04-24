@@ -12,12 +12,14 @@ import java.io.File;
 public class FileWrapper extends SimpleRegister {
 
 	private File				file;
+	private Long				lastModified;
 	
 	public FileWrapper(File file) {
 		if (file == null) {
 			throw new IllegalArgumentException("param file cann't be null.");
 		}
 		this.file = file;
+		this.lastModified = this.file.lastModified();
 	}
 	
 	@Override
@@ -26,8 +28,8 @@ public class FileWrapper extends SimpleRegister {
 	}
 
 	@Override
-	public int hashSimpleRegister() {
-		return this.hashCode();
+	public long hashSimpleRegister() {
+		return this.lastModified;
 	}
 	
 	// GETTERS AND SETTERS //
