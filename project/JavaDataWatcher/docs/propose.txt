@@ -2,7 +2,7 @@ DataWatcher
 
 A proposta é;
 
-A criação de um Watcher que possa fazer a verificações em tipos diferentes de dados que por sua vez estejam estruturados de diversas maneiras.
+A criação de um Watcher que possa fazer a verificações em tipos diferentes de DADOS que por sua vez estejam estruturados de diversas maneiras.
 
 O objetivo nasceu na vontade de ter um watcher para base de dados sem a necessidade de ser intrusivo a configurações do banco, como criação de triggers e enfim. Para entender melhor, esta tal necessidade nasceu quando eu queria um componente Java que verificasse possíveis modificações não estruturais, mas sim em linhas de determinada tabela da minha base de dados e para cada linha que tenha sofrido um INSERT, UPDATE ou DELETE, um evento Java que eu pudesse manipular fosse disparado.
 
@@ -13,11 +13,11 @@ Talvez uma solução com performance até melhor seria criar uma tabela temporária,
 
 O meu problema é que sou desenvolvedor Java, e a promessa de 'write once run anywhere' é um desejo que me acompanha a todo momento, e não quero me preocupar com o ambiente (S.O.) onde está sendo executado a minha aplicação ou ter que configurar "agregações" (me desculpe o termo, mas foi o que achei) na base de dados, eu quero a base de dados só como base de dados, sem regras adicionais.
 
-Um outro problema que poderia me desanimar é que o watcher pode me colocar em risco dependendo da minha aplicação. Vamos assumir um watcher de um diretório e que ocorre uma verificação se há um novo arquivo neste diretório de minuto em minuto, se um novo arquivo for adicionado a este diretório então uma ação deve ser feita. O fato é que dentro de um minuto um arquivo pode ser adicionado e removido fazendo com que o Watcher nunca tenha conhecimento deste arquivo, e para o Watcher da base de dados por mim implementado o mesmo risco ocorre e se este risco não pode ser assumido a minha abordagem e implementação não deve ser utilizada. Poderia chamar então o Watcher de uma espécie de Check Change.
+Um outro problema que poderia me desanimar é que o watcher pode me colocar em risco dependendo da minha aplicação. Vamos assumir um watcher de um diretório e que ocorre uma verificação se há um novo arquivo neste diretório de minuto em minuto, se um novo arquivo for adicionado a este diretório então uma ação deve ser disparada. O fato é que dentro de um minuto um arquivo pode ser adicionado e removido fazendo com que o Watcher nunca tenha conhecimento deste arquivo, e para o Watcher da base de dados por mim implementado o mesmo risco ocorre e se este risco não pode ser assumido a minha abordagem e implementação não deve ser utilizada. Poderia chamar então o Watcher de uma espécie de Check Change.
 
 O problema acima mencionado poderia ser driblado com a opção da Trigger na base de dados, pois o SGDB irá garantir no tempo BEFORE ou AFTER a cada modificação nas linhas de uma tabela (isto é uma possibilidade).
 
-Posso estar certo ou não, mas o desafio foi lançado e o objetivo é desenvolver aquela primeira idéia e posteriormente estender o DataWatcher a "folder watcher", "email watcher", entre outros, visto que por momento será somente para a base de dados mesmo.
+Posso estar certo ou não, mas o desafio foi lançado e o objetivo é desenvolver aquela primeira idéia e posteriormente estender o DataWatcher a "folder watcher", "email watcher", entre outros, visto que por momento será somente para a base de dados e diretórios.
 
 Arquitetura / Desenvolvimento;
 
