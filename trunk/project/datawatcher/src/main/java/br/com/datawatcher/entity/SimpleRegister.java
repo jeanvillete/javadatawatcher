@@ -9,6 +9,6 @@ package br.com.datawatcher.entity;
  */
 public abstract class SimpleRegister {
 
-	public abstract int hashSimpleRegister();
+	public abstract long hashSimpleRegister();
 	
 }
