@@ -9,6 +9,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
+import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.Scheduler;
@@ -53,18 +54,18 @@ public class DataWatcher implements Job {
 			for (DataMapping dataMapping : this.mappings) {
 				log.info("analyzing and scheduling data mapping: " + dataMapping.getIdentifier());
 				
-				JobDataMap jobDataMap = new JobDataMap();
-				jobDataMap.put(dataMapping.getIdentifier(), dataMapping);
-				
 				CronTriggerImpl cron = new CronTriggerImpl();
 				cron.setName(dataMapping.getIdentifier());
 				cron.setKey(new TriggerKey(dataMapping.getIdentifier(), DataWatcherConstants.GROUP_TRIGGER));
 				cron.setCronExpression(dataMapping.getCheckChange().getCronExpression());
-				cron.setJobDataMap(jobDataMap);
+				
+				JobDataMap jobDataMap = new JobDataMap();
+				jobDataMap.put(dataMapping.getIdentifier(), dataMapping);
 
 				JobDetailImpl job = new JobDetailImpl();
 				job.setName(dataMapping.getIdentifier());
 				job.setJobClass(this.getClass());
+				job.setJobDataMap(jobDataMap);
 				
 				scheduler.scheduleJob(job, cron);
 				
@@ -85,8 +86,9 @@ public class DataWatcher implements Job {
 		if (executing) return;
 		executing = true;
 		try {
-			String triggerKeyName = context.getTrigger().getKey().getName();
-			DataMapping dataMapping = (DataMapping) context.getTrigger().getJobDataMap().get(triggerKeyName);
+			JobDetail jobDetail = context.getJobDetail();
+			JobDataMap jobDataMap = jobDetail.getJobDataMap();
+			DataMapping dataMapping = (DataMapping)jobDataMap.values().iterator().next();
 			
 			log.info("starting execute CHECK CHANGES to data mapping: " + dataMapping.getIdentifier());
 			TimeWatcher timeWatcher = new TimeWatcher().start();
