@@ -22,7 +22,7 @@
 		</listeners>
 	</table-mapping>
 	 
-	<folder-mapping identifier="MyFolderWatcher" canonical-path="C:\TEMP\datawatcher\listened" regex-filter="^[\w|\W]+.txt$">
+	<folder-mapping identifier="MyFolderWatcher" canonical-path="C:\TEMP\datawatcher\listened" filter="*.txt:*.xml">
 		<check-change cron-expression="0/5 * * ? * *"/>
 		<listeners>
 			<listener class-name="br.com.listener.jdbc.FolderListenerImplTest" asynchronous="false"/>
