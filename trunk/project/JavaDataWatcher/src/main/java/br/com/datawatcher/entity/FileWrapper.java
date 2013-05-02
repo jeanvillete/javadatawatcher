@@ -4,6 +4,9 @@
 package br.com.datawatcher.entity;
 
 import java.io.File;
+import java.io.IOException;
+
+import br.com.datawatcher.exception.DataWatcherRuntimeException;
 
 /**
  * @author Jean Villete
@@ -24,7 +27,11 @@ public class FileWrapper extends SimpleRegister {
 	
 	@Override
 	public int hashCode() {
-		return this.file.getName().hashCode();
+		try {
+			return this.file.getCanonicalPath().hashCode();
+		} catch (IOException e) {
+			throw new DataWatcherRuntimeException(e);
+		}
 	}
 
 	@Override

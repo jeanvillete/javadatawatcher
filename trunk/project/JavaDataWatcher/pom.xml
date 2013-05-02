@@ -37,7 +37,7 @@
 		<dependency>
 		    <groupId>utilities</groupId>
 		    <artifactId>tatu</artifactId>
-		    <version>20130201.1323</version>
+		    <version>20130502.1458</version>
 		</dependency>
     </dependencies>
     

@@ -64,7 +64,6 @@ public class XStreamFactory {
 		xStream.aliasField("password", JdbcConnection.class, "passwordLogging");
 		xStream.aliasField("declared-result", TableMapping.class, "declaredResult");
 		xStream.aliasField("canonical-path", FolderMapping.class, "canonicalPath");
-		xStream.aliasField("regex-filter", FolderMapping.class, "regexFilter");
 		
 		xStream.useAttributeFor(DataMapping.class, "identifier");
 		xStream.useAttributeFor(TableMapping.class, "name");
@@ -74,7 +73,7 @@ public class XStreamFactory {
 		xStream.useAttributeFor(Column.class, "columnName");
 		xStream.useAttributeFor(Column.class, "columnType");
 		xStream.useAttributeFor(FolderMapping.class, "canonicalPath");
-		xStream.useAttributeFor(FolderMapping.class, "regexFilter");
+		xStream.useAttributeFor(FolderMapping.class, "filter");
 		
 		xStream.omitField(TableMapping.class, "tableState");
 		
