@@ -1,4 +1,6 @@
 package br.com.listener.jdbc;
+import java.io.IOException;
+
 import org.apache.log4j.Logger;
 
 import br.com.datawatcher.entity.FileWrapper;
@@ -28,7 +30,11 @@ public class FolderListenerImplTest extends FolderMappingListenerAdapter {
 	}
 
 	private void printFile(String operation, FileWrapper file) {
-		log.info(operation + ", file name : " + file.getFile().getName());
+		try {
+			log.info(operation + ", file name : " + file.getFile().getCanonicalPath());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

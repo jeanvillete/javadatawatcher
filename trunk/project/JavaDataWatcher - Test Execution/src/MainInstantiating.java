@@ -12,7 +12,7 @@ public class MainInstantiating {
 			FolderMapping folder = new FolderMapping();
 			folder.setIdentifier("MyFolderWatcherCron");
 			folder.setCanonicalPath("C:\\TEMP\\datawatcher\\listened");
-			folder.setRegexFilter("^[\\w|\\W]+.txt$");
+			folder.setFilter("*.txt");
 			folder.setCheckChange(new CheckChange("0/5 * * ? * *"));
 			Listener listener = new Listener(FolderListenerImplTest.class.getName());
 			listener.setAsynchronous("true");
