@@ -22,7 +22,7 @@ public class SqlStatementConverter implements Converter {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean canConvert(Class clazz) {
-		return clazz.getSuperclass().equals(SqlStatement.class);
+		return !clazz.isPrimitive() && clazz.getSuperclass().equals(SqlStatement.class);
 	}
 
 	@Override

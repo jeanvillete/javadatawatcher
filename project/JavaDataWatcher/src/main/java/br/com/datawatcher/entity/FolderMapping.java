@@ -3,10 +3,12 @@
  */
 package br.com.datawatcher.entity;
 
-import java.io.FilenameFilter;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import org.com.tatu.helper.FileHelper;
 import org.com.tatu.helper.GeneralsHelper;
 
 import br.com.datawatcher.exception.DataWatcherException;
@@ -19,20 +21,35 @@ import br.com.datawatcher.service.CompareSimpleRegister;
 public class FolderMapping extends DataMapping {
 
 	private String				canonicalPath;
-	private String				regexFilter;
+	private String				filter;
 	private java.io.File		folder;
 	private Set<FileWrapper>	folderState;
+	private Boolean				recursively;
 	
 	public FolderMapping() { }
 	
-	public FolderMapping(String canonicalPath, String regexFilter) {
+	public FolderMapping(String canonicalPath, String filter) {
 		this.canonicalPath = canonicalPath;
-		this.regexFilter = regexFilter;
+		this.filter = filter;
 	}
 	
 	private Set<FileWrapper> getFiles() {
 		Set<FileWrapper> folderState = new HashSet<FileWrapper>();
-		java.io.File[] files = this.getFolder().listFiles(new FolderFilter());
+		java.io.File[] files = null;
+		if (GeneralsHelper.isStringOk(this.filter)) {
+			List<String> filters = new ArrayList<String>();
+			for (String filter : this.filter.split(":")) {
+				if (GeneralsHelper.isStringOk(filter)) {
+					filters.add(filter.trim());
+				}
+			}
+			
+			FileHelper fileHelper = new FileHelper(this.canonicalPath);
+			files = fileHelper.find(filters.toArray(new String[]{})).toArray(new java.io.File[]{});
+		} else {
+			files = this.getFolder().listFiles();
+		}
+		
 		for (java.io.File file : files) {
 			folderState.add(new FileWrapper(file));
 		}
@@ -65,11 +82,17 @@ public class FolderMapping extends DataMapping {
 	public void setCanonicalPath(String canonicalPath) {
 		this.canonicalPath = canonicalPath;
 	}
-	public String getRegexFilter() {
-		return regexFilter;
+	public String getFilter() {
+		return filter;
 	}
-	public void setRegexFilter(String regexFilter) {
-		this.regexFilter = regexFilter;
+	public Boolean getRecursively() {
+		return recursively;
+	}
+	public void setRecursively(Boolean recursively) {
+		this.recursively = recursively;
+	}
+	public void setFilter(String filter) {
+		this.filter = filter;
 	}
 	public java.io.File getFolder() {
 		if (this.folder == null) {
@@ -80,13 +103,5 @@ public class FolderMapping extends DataMapping {
 		}
 		return this.folder;
 	}
-	
-	private class FolderFilter implements FilenameFilter {
-		@Override
-		public boolean accept(java.io.File dir, String name) {
-			if (GeneralsHelper.isStringOk(regexFilter)) {
-				return name.matches(regexFilter);
-			} return true;
-		}
-	}
+
 }

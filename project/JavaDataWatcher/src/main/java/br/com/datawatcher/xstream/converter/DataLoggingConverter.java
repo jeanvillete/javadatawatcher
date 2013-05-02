@@ -24,7 +24,7 @@ public class DataLoggingConverter implements Converter {
 	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean canConvert(Class clazz) {
-		return clazz.getSuperclass().equals(DataLogging.class);
+		return !clazz.isPrimitive() && clazz.getSuperclass().equals(DataLogging.class);
 	}
 
 	@Override
